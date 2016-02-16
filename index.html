@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Taz : Twitter Archive Analyzer</title>
+	<script src="./js/papaparse.min.js"></script>
+	<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+	<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/js/bootstrap.min.js"></script>
+	<script src="./js/stupidtable.min.js"></script>
+	<script src="./js/taz.js"></script>
+	<link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.6/css/bootstrap.min.css" rel="stylesheet">
+	<link href="./style.css" rel="stylesheet">
+</head>
+<body>
+<section id="init">
+	<div class="dropzone">
+		Drop twitter archive csv file here or click
+	</div>
+	<input id="fileloader" type="file" onchange="runTaz($(this).prop('files')[0]);" >
+</section>
+<section id="loading">
+	<div class="v-center">
+		<div class="spinner"></div>
+		<span>Please wait...</span>
+	</div>
+</section>
+<section id="result">
+	<div class="panel panel-default">
+		<div class="panel-heading">시간별 통계</i></div>
+		<table id="hour-stats" class="table">
+			<thead>
+				<tr>
+					<th data-sort="int">시간</th>
+					<th data-sort="int">트윗 수</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+	<div class="panel panel-default">
+		<div class="panel-heading">요일별 통계</div>
+		<table id="weekday-stats" class="table">
+			<thead>
+				<tr>
+					<th data-sort="int">요일</th>
+					<th data-sort="int">트윗 수</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+
+	<div class="panel panel-default">
+		<div class="panel-heading">시간/요일별 통계</div>
+		<table id="heatmap-stats" class="table">
+			<thead>
+				<tr>
+					<th data-sort="int">시간</th>
+					<th data-sort="int">월</th>
+					<th data-sort="int">화</th>
+					<th data-sort="int">수</th>
+					<th data-sort="int">목</th>
+					<th data-sort="int">금</th>
+					<th data-sort="int">토</th>
+					<th data-sort="int">일</th>
+				</tr>
+			</thead>
+			<tbody>
+			</tbody>
+		</table>
+	</div>
+</section>
+</body>
+</html>
