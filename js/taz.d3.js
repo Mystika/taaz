@@ -63,12 +63,6 @@ function drawBarChart(obj,data){
       .attr("height", function(d) { return height - y(d.Count); })
       .on('mouseover', tip.show)
       .on('mouseout', tip.hide)
-
-
-  function type(d) {
-    d.Count = +d.Count;
-    return d;
-  }
 }
 
 function drawHeatmap(obj,data){

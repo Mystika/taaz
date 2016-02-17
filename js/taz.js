@@ -1,4 +1,5 @@
 var runTaz;
+var convertId;
 $(document).ready(function(){
 	String.prototype.format = function() {
 	    var formatted = this;
@@ -38,7 +39,6 @@ $(document).ready(function(){
     })
     
     runTaz = function(__file__){
-    	
     	try{
 
 	    	$('#init').hide();
@@ -52,8 +52,8 @@ $(document).ready(function(){
 	    	Papa.parse(__file__,{
 	    		header: true,
 	    		complete: function(result){
-	    			console.log(result);
-			   		var sortByReplySent = {}, sortByHour = [], sortByDay = [], heatmap = {}, HourList = [], WeekdayList = [], HeatmapList = [], retweetCount = 0;
+			   		var sortByReplySent = {}, sortByHour = [], sortByDay = [], heatmap = {}, retweetCount = 0;
+			   		var HourList = [], WeekdayList = [], HeatmapList = [];
 			   		var daysKor = ['월','화','수','목','금','토','일'];
 
 					for(var i=0; i<7;i++){
@@ -84,30 +84,34 @@ $(document).ready(function(){
 						heatmap[d.getDay()][d.getHours()]++;
 					}
 
-					start = performance.now();
 					var _keys = [];
-						for(var key in sortByReplySent) _keys.push({key, val: sortByReplySent[key] });
+						for(var key in sortByReplySent) _keys.push({Id:key, Count: sortByReplySent[key] });
 					sortByReplySent = _keys.sort(function(a,b){
-						return b.val-a.val;
+						return b.Count-a.Count;
 					});
-					$('#loading').hide();
-					$('#result').show();
 
 					for(var i in sortByHour)
 						HourList.push({X:i,Count:sortByHour[i]});
 					
 
 					for(var i in sortByDay){
+
 						WeekdayList.push({X:daysKor[i], Count: sortByDay[i]});
-						for(var j in sortByHour){
+
+						for(var j in sortByHour)
 							HeatmapList.push({Day:i,Hour:j,Count:heatmap[i][j]});
-						}
-						//$('#weekday-stats').append('<tr><th class="text-center">{0}</th><td class="text-center">{1}</td></tr>'.format(daysKor[i], sortByDay[i]));
+
 					}
 
 					drawBarChart('#hour-stats',HourList);
 					drawBarChart('#weekday-stats',WeekdayList);
 					drawHeatmap('#heatmap-stats',HeatmapList);
+					
+					for(var i=0;i<Math.min(20,sortByReplySent.length);i++)
+						$('#reply-stats tbody').append('<tr><th class="text-center">{0}(<a href="#;" onclick="convertId($(this).parent(),{0})">아이디 보기</a>)</th><td class="text-center">{1}</td></tr>'.format(sortByReplySent[i].Id, sortByReplySent[i].Count));
+					
+					$('#loading').hide();
+					$('#result').show();
 	    		}
 	    	});
 		}
@@ -116,5 +120,20 @@ $(document).ready(function(){
 		}
 	}
 
-	$('#hour-stats, #weekday-stats, #heatmap-stats').stupidtable();
+
+	convertId = function(obj,id){
+		$(obj).html('{0} (변환 중)'.format(id));
+		$.ajax({
+			url: 'https://twitter.com/intent/user?user_id='+id,
+			type: 'get',
+			success: function (response) {
+				$(obj).html('<a href="https://twitter.com/{0}">{0}</a>'.format($($.parseHTML(response.responseText)).find('.nickname').text()));
+			},
+			error: function(jqXHR, status, error){
+				$(obj).html('{0} <span class="error">실패</span>'.fomat(id));
+			}
+		});
+	}
+
+	$('#reply-stats').stupidtable();
 });

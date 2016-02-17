@@ -21,6 +21,11 @@ html,body, section {
   background-image: url(data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0idXRmLTgiPz48IURPQ1RZUEUgc3ZnIFBVQkxJQyAiLS8vVzNDLy9EVEQgU1ZHIDEuMS8vRU4iICJodHRwOi8vd3d3LnczLm9yZy9HcmFwaGljcy9TVkcvMS4xL0RURC9zdmcxMS5kdGQiPjxzdmcgdmVyc2lvbj0iMS4xIiBpZD0iTGF5ZXJfMSIgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB4bWxuczp4bGluaz0iaHR0cDovL3d3dy53My5vcmcvMTk5OS94bGluayIgeD0iMHB4IiB5PSIwcHgiIHdpZHRoPSI1MTJweCIgaGVpZ2h0PSIzMTYuMzc1cHgiIHZpZXdCb3g9IjAgMCA1MTIgMzE2LjM3NSIgZW5hYmxlLWJhY2tncm91bmQ9Im5ldyAwIDAgNTEyIDMxNi4zNzUiIHhtbDpzcGFjZT0icHJlc2VydmUiPjxwYXRoIGQ9Ik0yNTYsMEwwLDI1Nmw2MC4zNzUsNjAuMzc1TDI1NiwxMjAuNzVsMTk1LjYyNSwxOTUuNjI1TDUxMiwyNTZMMjU2LDB6Ii8+PC9zdmc+);
 }
 
+.error {
+  color: #f00;
+  font-weight: bold;
+}
+
 th,td,.dropzone {
   text-align: center;
 }
