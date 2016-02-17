@@ -52,8 +52,8 @@ $(document).ready(function(){
 	    	Papa.parse(__file__,{
 	    		header: true,
 	    		complete: function(result){
-
-			   		var sortByReplySent = {}, sortByHour = [], sortByDay = [], heatmap = {}, retweetCount = 0;
+	    			console.log(result);
+			   		var sortByReplySent = {}, sortByHour = [], sortByDay = [], heatmap = {}, HourList = [], WeekdayList = [], HeatmapList = [], retweetCount = 0;
 			   		var daysKor = ['월','화','수','목','금','토','일'];
 
 					for(var i=0; i<7;i++){
@@ -93,21 +93,23 @@ $(document).ready(function(){
 					$('#loading').hide();
 					$('#result').show();
 
-					for(var i in sortByHour){
-						$('#hour-stats').append('<tr><th class="text-center">{0}시 ~ {1}시</th><td class="text-center">{2}</td></tr>'.format(i, parseInt(i)+1,  sortByHour[i]));
+					for(var i in sortByHour)
+						HourList.push({X:i,Count:sortByHour[i]});
+					
 
-						$('#heatmap-stats').append('<tr><th class="text-center">{0}시 ~ {1}시</th><td class="text-center">{2}</td><td class="text-center">{3}</td><td class="text-center">{4}</td><td class="text-center">{5}</td><td class="text-center">{6}</td><td class="text-center">{7}</td><td class="text-center">{8}</td></tr>'
-							.format(i,parseInt(i)+1, heatmap[0][i], heatmap[1][i],heatmap[2][i],heatmap[3][i],heatmap[4][i],heatmap[5][i],heatmap[6][i]));
+					for(var i in sortByDay){
+						WeekdayList.push({X:daysKor[i], Count: sortByDay[i]});
+						for(var j in sortByHour){
+							HeatmapList.push({Day:i,Hour:j,Count:heatmap[i][j]});
+						}
+						//$('#weekday-stats').append('<tr><th class="text-center">{0}</th><td class="text-center">{1}</td></tr>'.format(daysKor[i], sortByDay[i]));
 					}
 
-					for(var i in sortByDay)
-						$('#weekday-stats').append('<tr><th class="text-center">{0}</th><td class="text-center">{1}</td></tr>'.format(daysKor[i], sortByDay[i]));  			
-
+					drawBarChart('#hour-stats',HourList);
+					drawBarChart('#weekday-stats',WeekdayList);
+					drawHeatmap('#heatmap-stats',HeatmapList);
 	    		}
 	    	});
-	   			
-
-	   		
 		}
 		catch(error) {
 			alert('Error : ' + error.message);
