@@ -185,9 +185,3 @@ text.axis-worktime {
     top: 10px;
     left: 0;
 }
-
-.line {
-  fill: none;
-  stroke: steelblue;
-  stroke-width: 1.5px;
-}
