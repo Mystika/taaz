@@ -1,9 +1,10 @@
 function drawBarChart(obj,data){
   var margin = {top: 40, right: 20, bottom: 30, left: 60},
       width = 960 - margin.left - margin.right,
-      height = 500 - margin.top - margin.bottom;
+      height = 430 - margin.top - margin.bottom,
+      aspect = width / height;
 
-  var formatPercent = d3.format("#,###");
+  var _format = d3.format("#,###");
 
   var x = d3.scale.ordinal()
       .rangeRoundBands([0, width], .1);
@@ -18,7 +19,7 @@ function drawBarChart(obj,data){
   var yAxis = d3.svg.axis()
       .scale(y)
       .orient("left")
-      .tickFormat(formatPercent);
+      .tickFormat(_format);
 
   var tip = d3.tip()
     .attr('class', 'd3-tip')
@@ -28,10 +29,11 @@ function drawBarChart(obj,data){
     })
 
   var svg = d3.select(obj).append("svg")
-      .attr("width", width + margin.left + margin.right)
-      .attr("height", height + margin.top + margin.bottom)
+    .attr("width", width + margin.left + margin.right)
+    .attr("height", height + margin.top + margin.bottom)
+    .attr("viewBox", "0 0 {0} {1}".format(width + margin.left + margin.right,height + margin.top + margin.bottom))
     .append("g")
-      .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+    .attr("transform", "translate(" + margin.left + "," + margin.top + ")")
 
   svg.call(tip);
 
@@ -62,7 +64,7 @@ function drawBarChart(obj,data){
       .attr("y", function(d) { return y(d.Count); })
       .attr("height", function(d) { return height - y(d.Count); })
       .on('mouseover', tip.show)
-      .on('mouseout', tip.hide)
+      .on('mouseout', tip.hide);
 }
 
 function drawHeatmap(obj,data){
@@ -74,7 +76,7 @@ function drawHeatmap(obj,data){
       return "<strong><span style='color:red'>" + d.Count + "</span> 트윗</strong>";
     });
 
-  var margin = { top: 50, right: 0, bottom: 100, left: 60 },
+  var margin = { top: 50, right: 20, bottom: 100, left: 40 },
       width = 960 - margin.left - margin.right,
       height = 430 - margin.top - margin.bottom,
       gridSize = Math.floor(width / 24),
@@ -87,6 +89,7 @@ function drawHeatmap(obj,data){
   var svg = d3.select(obj).append("svg")
       .attr("width", width + margin.left + margin.right)
       .attr("height", height + margin.top + margin.bottom)
+      .attr("viewBox", "0 0 {0} {1}".format(width + margin.left + margin.right, height + margin.top + margin.bottom))
       .append("g")
       .attr("transform", "translate(" + margin.left + "," + margin.top + ")");
 

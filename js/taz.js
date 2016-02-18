@@ -96,7 +96,7 @@ $(document).ready(function(){
 
 					for(var i in sortByDay){
 
-						WeekdayList.push({X:daysKor[i], Count: sortByDay[i]});
+						WeekdayList.push({X:daysKor[i], Count: sortByDay[i], DayOfWeek: i});
 
 						for(var j in sortByHour)
 							HeatmapList.push({Day:i,Hour:j,Count:heatmap[i][j]});
@@ -136,4 +136,11 @@ $(document).ready(function(){
 	}
 
 	$('#reply-stats').stupidtable();
+
+	$(window).on("resize", function() {
+	    var targetWidth = $('svg').parent().width(),
+	    	aspect = $('svg').width() / $('svg').height();
+	    $('svg').attr("width", targetWidth);
+	    $('svg').attr("height", Math.round(targetWidth / aspect))
+	});
 });
